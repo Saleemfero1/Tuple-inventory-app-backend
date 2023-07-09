@@ -1,4 +1,5 @@
 package com.nextuple.Inventory.management.service;
+import com.nextuple.Inventory.management.dto.RegionBasedDemand;
 import com.nextuple.Inventory.management.exception.*;
 import com.nextuple.Inventory.management.model.*;
 import com.nextuple.Inventory.management.repository.*;
@@ -12,6 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -79,6 +81,18 @@ public class DemandService {
         if (DemandList.isEmpty())
             throw new DemandNotFoundException("Demands Not Found!");
         return DemandList;
+    }
+    public List<RegionBasedDemand> regionBasedDemand(String organizationId, String locationId) {
+        List<RegionBasedDemand>regionBasedDemandList = new ArrayList<>();
+        List<Item> itemList = itemRepository.findByOrganizationId(organizationId);
+        for (Item item:itemList){
+            int totalDemand = totalDemandForItemAtParticularLocation(organizationId,item.getItemId(),locationId);
+            int totalSupply = supplyServices.totalSupplyForItemAtParticularLocation(organizationId,item.getItemId(),locationId);
+            if(totalDemand ==0 && totalSupply==0)
+                continue;
+            regionBasedDemandList.add( new RegionBasedDemand(item.getItemId(),item.getItemName(),locationId,totalDemand,totalSupply));
+        }
+        return regionBasedDemandList;
     }
 
     @Transactional

@@ -155,7 +155,7 @@ public class    InventoryServices {
          dataNumber.put("totalLocation",totalLocation);
          dataNumber.put("totalActiveItems",totalActiveItem);
          dataNumber.put("totalTrendingItems",totalTrendingItems);
-         dataNumber.put("totalLowStockItems",numberOfLowStockItems);
+         dataNumber.put("totalLowStockItems ",numberOfLowStockItems);
          dataNumber.put("totalHighStockItems",numberHighStockItems);
          dataNumber.put("totalCategories",categories.size());
         return dataNumber;
@@ -178,7 +178,7 @@ public class    InventoryServices {
    public Map<String, Integer>getMostTrendingItems(String organizationId){
        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
        LocalDate today = LocalDate.now();
-       LocalDate fiveDaysAgo = today.minusDays(5);
+       LocalDate fiveDaysAgo = today.minusDays(16);
 
        Map<String, Integer> trendingItems = new HashMap<>();
        List<Item> itemList = itemRepository.findByOrganizationId(organizationId);
@@ -198,6 +198,9 @@ public class    InventoryServices {
            }else{
                trendingItems.put(transaction.getItemId(),transaction.getQuantity());
            }
+       }
+       for (Map.Entry<String, Integer> entry : trendingItems.entrySet()) {
+           System.out.println(entry.getKey() + ": " + entry.getValue());
        }
         return trendingItems;
    }

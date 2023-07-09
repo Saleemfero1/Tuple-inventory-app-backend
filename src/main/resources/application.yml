@@ -1,5 +1,5 @@
-spring:
-  data:
-    mongodb:
-      uri : mongodb+srv://saleem:Saleem123@inventory.pnb7htr.mongodb.net/?retryWrites=true&w=majority
-      database: Inventory
+#spring:
+#  data:
+#    mongodb:
+#      uri : mongodb+srv://asim:asim123@cluster0.iqsyghd.mongodb.net/?retryWrites=true&w=majority
+#      database: Inventory

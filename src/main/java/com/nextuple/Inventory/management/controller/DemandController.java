@@ -1,4 +1,5 @@
 package com.nextuple.Inventory.management.controller;
+import com.nextuple.Inventory.management.dto.RegionBasedDemand;
 import com.nextuple.Inventory.management.model.Demand;
 import com.nextuple.Inventory.management.model.Location;
 import com.nextuple.Inventory.management.service.DemandService;
@@ -67,6 +68,10 @@ public class DemandController {
     public ResponseEntity<Demand>updateSupply(@PathVariable("organizationId")String organizationId, @PathVariable("demandId") String demandId, @RequestBody Demand demand){
         Demand updatedDemand = demandService.updateDemand(organizationId,demandId, demand);
         return new ResponseEntity<>(updatedDemand,HttpStatus.OK);
+    }
+    @GetMapping("/region/{organizationId}/{locationId}")
+    public  ResponseEntity<List<RegionBasedDemand>>regionBasedDemand(@PathVariable("organizationId") String organizationId, @PathVariable("locationId") String locationId){
+        return  new ResponseEntity<>(demandService.regionBasedDemand(organizationId,locationId),HttpStatus.OK);
     }
 
 }
